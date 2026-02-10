@@ -14,7 +14,7 @@ A modern **Payload CMS** starter kit integrated with **Supabase** for authentica
   * Storage buckets
   * Row Level Security (RLS)
 * **TypeScript-first** setup
-* **Docker & Supabase CLI** friendly
+* **Local Development with Docker**
 * Ready for **Next.js** or standalone Payload usage
 
 ---
@@ -25,7 +25,7 @@ A modern **Payload CMS** starter kit integrated with **Supabase** for authentica
 * Supabase (Postgres + Auth + Storage)
 * Node.js 18+
 * TypeScript
-* Docker (optional but recommended)
+* Docker
 
 ---
 
@@ -53,21 +53,15 @@ A modern **Payload CMS** starter kit integrated with **Supabase** for authentica
 ### 1. Prerequisites
 
 * Node.js **18+**
-* Docker (recommended)
-* Supabase CLI
-
-```bash
-npm install -g supabase
-```
+* Docker
 
 ---
 
-### 2. Clone & Install
+### 2. Clone
 
 ```bash
 git clone https://github.com/your-org/payload-supabase-starter.git
 cd payload-supabase-starter
-npm install
 ```
 
 ---
@@ -80,24 +74,13 @@ Copy the example env file:
 cp .env.example .env
 ```
 
-Example `.env`:
-
-```env
-PAYLOAD_SECRET=super-secret-key
-PAYLOAD_PUBLIC_SERVER_URL=http://localhost:3000
-
-SUPABASE_URL=http://localhost:54321
-SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-DATABASE_URL=postgres://postgres:postgres@localhost:54322/postgres
-```
-
 ---
 
 ### 4. Start Supabase (Local)
 
 ```bash
-supabase start
+cd supabase
+docker compose up -d
 ```
 
 This will spin up:
@@ -107,11 +90,18 @@ This will spin up:
 * Storage
 * Studio UI
 
+Supabase Admin UI:
+
+```
+http://localhost:8000
+```
+
 ---
 
 ### 5. Run Payload CMS
 
 ```bash
+cd payload
 npm run dev
 ```
 
@@ -150,7 +140,9 @@ payload.create({
 * Apply migrations:
 
 ```bash
-supabase db reset
+npm i supabase --save-dev
+supabase db reset --db-url="postgresql://<user>:<password>@localhost:<db_port>/<database_name>"
+
 ```
 
 ---
@@ -187,9 +179,11 @@ Make sure production env vars are set correctly.
 ## 🧪 Useful Commands
 
 ```bash
-supabase status
-supabase db reset
+docker compose up -d
+docker compose down
+
 npm run build
+npm run dev
 npm run start
 ```
 
